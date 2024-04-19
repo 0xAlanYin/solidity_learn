@@ -9,14 +9,14 @@ contract Bank {
     address[3] public top3Users;
 
     // admin user
-    address public admin;
+    address public owner;
 
     constructor(address _newOwner) {
-        admin = _newOwner;
+        owner = _newOwner;
     }
 
     modifier onlyOwner() {
-        require(msg.sender == admin, "only admin can withdraw");
+        require(msg.sender == owner, "only admin can withdraw");
         _;
     }
 

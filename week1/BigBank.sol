@@ -3,9 +3,14 @@ pragma solidity >0.8.0;
 
 import {Bank} from "./bank.sol";
 
+interface IBigBank {
+    function transferOwner(address owner) external;
+}
+
 contract Ownable {
     address public owner;
-    BigBank public bigBank;
+    // 引入接口解耦
+    IBigBank bigBank;
 
     constructor() {
         owner = msg.sender;
@@ -16,7 +21,7 @@ contract Ownable {
         _;
     }
 
-    function setBigBank(BigBank _bigBank) external {
+    function setBigBank(IBigBank _bigBank) external {
         bigBank = _bigBank;
     }
 
@@ -27,11 +32,11 @@ contract Ownable {
 
 // 用 Solidity 编写 BigBank 智能合约
 contract BigBank is Bank {
-    // min deopsit amount is 0.001 ether
+    // min deposit amount is 0.001 ether
     uint256 public minDepositAmount = 0.001 ether;
 
     constructor(address _newOwner) Bank(_newOwner) {
-        admin = _newOwner;
+        owner = _newOwner;
     }
 
     // 存款金额 >0.001 ether
@@ -44,11 +49,10 @@ contract BigBank is Bank {
     }
 
     function deposit() public payable override validMinDeposit {
-        balances[msg.sender] = balances[msg.sender] + msg.value;
-        updateTop3User(msg.sender);
+        super.deposit();
     }
 
     function transferOwner(address _newOwner) external onlyOwner {
-        admin = _newOwner;
+        owner = _newOwner;
     }
 }
