@@ -25,11 +25,11 @@ contract Bank {
         payable(msg.sender).transfer(amount);
     }
 
-    // doposit
-    function deposit() public payable {
-        balances[msg.sender] = balances[msg.sender] + msg.value;
-        updateTop3User(msg.sender);
-    }
+//    // doposit
+//    function deposit() public payable {
+//        balances[msg.sender] = balances[msg.sender] + msg.value;
+//        updateTop3User(msg.sender);
+//    }
 
     function updateTop3User(address newSender) internal {
         // compare amount,if newSender is bigger,then update top3Users element
@@ -50,7 +50,10 @@ contract Bank {
         return admin.balance;
     }
 
-    receive() external payable {}
+    receive() external payable {
+        balances[msg.sender] = balances[msg.sender] + msg.value;
+        updateTop3User(msg.sender);
+    }
 
     fallback() external payable {}
 }
