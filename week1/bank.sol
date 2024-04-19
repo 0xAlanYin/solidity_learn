@@ -11,13 +11,17 @@ contract Bank {
     // admin user
     address public admin;
 
-    constructor() {
-        admin = msg.sender;
+    constructor(address _newOwner) {
+        admin = _newOwner;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == admin, "only admin can withdraw");
+        _;
     }
 
     // withdraw balance by admin
-    function withdraw(uint256 amount) public {
-        require(msg.sender == admin, "only admin can withdraw");
+    function withdraw(uint256 amount) public virtual onlyOwner {
         require(
             amount <= address(this).balance,
             "withdraw amount greater than balance"
@@ -25,11 +29,11 @@ contract Bank {
         payable(msg.sender).transfer(amount);
     }
 
-//    // doposit
-//    function deposit() public payable {
-//        balances[msg.sender] = balances[msg.sender] + msg.value;
-//        updateTop3User(msg.sender);
-//    }
+    // doposit
+    function deposit() public payable virtual {
+        balances[msg.sender] = balances[msg.sender] + msg.value;
+        updateTop3User(msg.sender);
+    }
 
     function updateTop3User(address newSender) internal {
         // compare amount,if newSender is bigger,then update top3Users element
@@ -46,13 +50,12 @@ contract Bank {
         }
     }
 
-    function adminBalance() public view returns (uint256) {
-        return admin.balance;
+    function getTop3User() public view returns (address[3] memory) {
+        return top3Users;
     }
 
     receive() external payable {
-        balances[msg.sender] = balances[msg.sender] + msg.value;
-        updateTop3User(msg.sender);
+        deposit();
     }
 
     fallback() external payable {}
