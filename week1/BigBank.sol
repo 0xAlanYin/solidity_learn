@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.8.0;
 
-import {Bank} from "./bank.sol";
+import {Bank} from "./Bank.sol";
 
 interface IBigBank {
     function transferOwner(address owner) external;
+
+    function withdraw(uint256 amount) external;
 }
 
 contract Ownable {
@@ -27,6 +29,10 @@ contract Ownable {
 
     function transferOwner(address newOwner) external onlyOwner {
         bigBank.transferOwner(newOwner);
+    }
+
+    function withdrawFromBank(uint256 amount) external onlyOwner {
+        bigBank.withdraw(amount);
     }
 }
 
