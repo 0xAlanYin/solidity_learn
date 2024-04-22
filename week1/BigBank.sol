@@ -4,16 +4,11 @@ pragma solidity >0.8.0;
 import {Bank} from "./Bank.sol";
 
 interface IBigBank {
-    function transferOwner(address owner) external;
-
     function withdraw(uint256 amount) external;
 }
 
 contract Ownable {
     address public owner;
-    // 引入接口解耦
-    IBigBank bigBank;
-
     constructor() {
         owner = msg.sender;
     }
@@ -23,16 +18,18 @@ contract Ownable {
         _;
     }
 
-    function setBigBank(IBigBank _bigBank) external {
-        bigBank = _bigBank;
+    function withdraw(address payable bank, uint256 amount) external onlyOwner {
+        IBigBank(bank).withdraw(amount);
     }
 
-    function transferOwner(address newOwner) external onlyOwner {
-        bigBank.transferOwner(newOwner);
+    event Received(address from, address to, uint amount);
+
+    receive() external payable {
+        emit Received(msg.sender, address(this), msg.value);
     }
 
-    function withdrawFromBank(uint256 amount) external onlyOwner {
-        bigBank.withdraw(amount);
+    function getBalance() public view returns (uint) {
+        return address(this).balance;
     }
 }
 
@@ -54,8 +51,9 @@ contract BigBank is Bank {
         _;
     }
 
-    function deposit() public payable override validMinDeposit {
-        super.deposit();
+    receive() external override payable validMinDeposit {
+        balances[msg.sender] = balances[msg.sender] + msg.value;
+        updateTop3User(msg.sender);
     }
 
     function transferOwner(address _newOwner) external onlyOwner {
