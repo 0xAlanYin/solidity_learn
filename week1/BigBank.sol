@@ -9,6 +9,7 @@ interface IBigBank {
 
 contract Ownable {
     address public owner;
+    IBigBank bigBank;
     constructor() {
         owner = msg.sender;
     }
@@ -18,13 +19,18 @@ contract Ownable {
         _;
     }
 
-    function withdraw(address payable bank, uint256 amount) external onlyOwner {
-        IBigBank(bank).withdraw(amount);
+    function setBigBank(IBigBank _bigBank) external {
+        bigBank = _bigBank;
+    }
+
+    function withdraw(uint256 amount) external onlyOwner {
+        bigBank.withdraw(amount);
     }
 
     event Received(address from, address to, uint amount);
 
     receive() external payable {
+        payable(address(bigBank)).transfer(msg.value);
         emit Received(msg.sender, address(this), msg.value);
     }
 
