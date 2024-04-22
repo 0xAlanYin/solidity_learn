@@ -28,7 +28,7 @@ contract Ownable {
     }
 
     receive() external payable {
-        (bool success,) = payable(address(bigBank)).call{value: 1 ether}(new bytes(0));
+        (bool success,) = address(bigBank).call{value: 1 ether}(new bytes(0));
         require(success, "failed when receive");
     }
 
