@@ -27,10 +27,7 @@ contract Ownable {
         bigBank.withdraw(amount);
     }
 
-    receive() external payable {
-        (bool success,) = address(bigBank).call{value: 1 ether}(new bytes(0));
-        require(success, "failed when receive");
-    }
+    receive() external payable {}
 
     function getBalance() public view returns (uint) {
         return address(this).balance;
