@@ -1,0 +1,104 @@
+{
+	"compiler": {
+		"version": "0.8.25+commit.b61c2a91"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "tokenAddress",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "erc20",
+				"outputs": [
+					{
+						"internalType": "contract BaseERC20",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"week2/TokenBank.sol": "TokenBank"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"week2/BaseERC20.sol": {
+			"keccak256": "0xb768e3d30146ddc15c60ebe1f7408be61e61902d82da3026b9e0df4f091ac381",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f8530d8b82a6d3bd66e39731e820c5ed8a101b94d1edfc7ca70bd0de470d54a5",
+				"dweb:/ipfs/QmYdwPMQ3pPaiNMocTZL2VzACn1JAW5v8LohCU7ugDfgpN"
+			]
+		},
+		"week2/TokenBank.sol": {
+			"keccak256": "0x4bfcca06d9cd84417a44734f7cd51673dc082b53e4ee5867214ae61f26e499c5",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d548263f29744ebbe187c9ece7d2e8a906e0ac0ed7f2419e222b289db5551a87",
+				"dweb:/ipfs/QmWtvU3LchZiJKgC4ymeRNLFUX4PJQWVipg2Lad5FcvsCf"
+			]
+		}
+	},
+	"version": 1
+}
